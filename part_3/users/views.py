@@ -8,12 +8,10 @@ from dotenv import load_dotenv
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
-from forms import (
-    UserAddForm, UserEditForm, LoginForm, MessageForm, CSRFProtection,
-)
+from .forms import CSRFProtection
 
-from models import (
-    db, connect_db, User, Message, DEFAULT_IMAGE_URL, DEFAULT_HEADER_IMAGE_URL)
+from .models import (
+    db, connect_db, User, DEFAULT_IMAGE_URL, DEFAULT_HEADER_IMAGE_URL)
 
 
 load_dotenv()
@@ -36,7 +34,10 @@ connect_db(app)
 
 # General user routes:
 
-@app.get('')
+users_bp = Blueprint('users', __name__, template_folder='templates')
+
+
+@app.get('/')
 def list_users():
     """Page with listing of users.
 
@@ -54,7 +55,7 @@ def list_users():
     else:
         users = User.query.filter(User.username.like(f"%{search}%")).all()
 
-    return render_template('users/index.html', users=users)
+    return render_template('index.html', users=users)
 
 
 @app.get('/<int:user_id>')

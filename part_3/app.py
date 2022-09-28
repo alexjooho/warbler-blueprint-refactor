@@ -302,7 +302,7 @@ def edit_profile():
             user.email = form.email.data
             user.image_url = form.image_url.data or DEFAULT_IMAGE_URL
             user.header_image_url = (
-                    form.header_image_url.data or DEFAULT_HEADER_IMAGE_URL)
+                form.header_image_url.data or DEFAULT_HEADER_IMAGE_URL)
             user.bio = form.bio.data
 
             db.session.commit()
