@@ -1,4 +1,6 @@
 from warbler.users.views import users_bp
+from warbler.root.views import root_bp
+from warbler.messages.views import messages_bp
 from flask import Flask
 import os
 from dotenv import load_dotenv
@@ -10,6 +12,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from flask_sqlalchemy import SQLAlchemy
+
+from forms import CSRFProtection
+
+from users.models import User
 
 db = SQLAlchemy()
 
@@ -69,6 +75,8 @@ def add_csrf_only_form():
 
 # Register Blueprints
 app.register_blueprint(users_bp, url_prefix='/users')
+app.register_blueprint(messages_bp, url_prefix='/messages')
+app.register_blueprint(root_bp)
 
 
 @app.errorhandler(404)

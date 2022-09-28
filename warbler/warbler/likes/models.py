@@ -1,12 +1,11 @@
 """ SQLAlchemy models for Users """
 
-from flask_bcrypt import Bcrypt
 # from flask_sqlalchemy import SQLAlchemy
 
-bcrypt = Bcrypt()
 # db = SQLAlchemy()
 
-from part_3 import db
+from warbler import db
+
 
 class Like(db.Model):
     """Join table between users and messages (the join represents a like)."""

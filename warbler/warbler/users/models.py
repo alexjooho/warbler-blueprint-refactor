@@ -1,5 +1,6 @@
 """ SQLAlchemy models for Users """
 
+from follows.models import Follows
 from warbler import db
 from flask_bcrypt import Bcrypt
 # from flask_sqlalchemy import SQLAlchemy
@@ -10,24 +11,6 @@ bcrypt = Bcrypt()
 
 DEFAULT_IMAGE_URL = "/static/images/default-pic.png"
 DEFAULT_HEADER_IMAGE_URL = "/static/images/warbler-hero.jpg"
-
-
-class Follows(db.Model):
-    """Connection of a follower <-> followed_user."""
-
-    __tablename__ = 'follows'
-
-    user_being_followed_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete="cascade"),
-        primary_key=True,
-    )
-
-    user_following_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete="cascade"),
-        primary_key=True,
-    )
 
 
 class User(db.Model):
@@ -143,13 +126,3 @@ class User(db.Model):
         found_user_list = [
             user for user in self.following if user == other_user]
         return len(found_user_list) == 1
-
-
-def connect_db(app):
-    """Connect this database to provided Flask app.
-
-    You should call this in your Flask app.
-    """
-
-    db.app = app
-    db.init_app(app)

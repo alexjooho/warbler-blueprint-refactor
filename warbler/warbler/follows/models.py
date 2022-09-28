@@ -1,10 +1,8 @@
 """ SQLAlchemy models for Users """
 
 from warbler import db
-from flask_bcrypt import Bcrypt
-# from flask_sqlalchemy import SQLAlchemy
 
-bcrypt = Bcrypt()
+# from flask_sqlalchemy import SQLAlchemy
 # db = SQLAlchemy()
 
 
