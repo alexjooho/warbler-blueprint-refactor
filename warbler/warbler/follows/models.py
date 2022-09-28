@@ -1,12 +1,12 @@
 """ SQLAlchemy models for Users """
 
+from warbler import db
 from flask_bcrypt import Bcrypt
 # from flask_sqlalchemy import SQLAlchemy
 
 bcrypt = Bcrypt()
 # db = SQLAlchemy()
 
-from part_3 import db
 
 class Follows(db.Model):
     """Connection of a follower <-> followed_user."""

@@ -1,4 +1,4 @@
-from .users.views import users_bp
+from warbler.users.views import users_bp
 from flask import Flask
 import os
 from dotenv import load_dotenv
@@ -35,6 +35,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 toolbar = DebugToolbarExtension(app)
 
+
 def connect_db(app):
     """Connect this database to provided Flask app.
 
@@ -44,7 +45,9 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
+
 connect_db(app)
+
 
 @app.before_request
 def add_user_to_g():
@@ -63,8 +66,10 @@ def add_csrf_only_form():
 
     g.csrf_form = CSRFProtection()
 
+
 # Register Blueprints
 app.register_blueprint(users_bp, url_prefix='/users')
+
 
 @app.errorhandler(404)
 def page_not_found(e):
