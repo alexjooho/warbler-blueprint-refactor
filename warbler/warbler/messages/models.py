@@ -1,4 +1,4 @@
-from warbler import db
+from warbler.database import db
 from datetime import datetime
 
 

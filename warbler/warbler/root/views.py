@@ -1,4 +1,4 @@
-from warbler import db
+from warbler.database import db
 
 from flask import (
     Flask, Blueprint, render_template, request, flash, redirect, g, abort, session

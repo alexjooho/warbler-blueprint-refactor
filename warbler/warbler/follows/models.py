@@ -1,6 +1,6 @@
 """ SQLAlchemy models for Users """
 
-from warbler import db
+from warbler.database import db
 
 # from flask_sqlalchemy import SQLAlchemy
 # db = SQLAlchemy()

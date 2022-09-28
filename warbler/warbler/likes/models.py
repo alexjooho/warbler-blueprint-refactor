@@ -4,7 +4,7 @@
 
 # db = SQLAlchemy()
 
-from warbler import db
+from warbler.database import db
 
 
 class Like(db.Model):

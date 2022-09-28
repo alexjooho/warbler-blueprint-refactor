@@ -1,9 +1,8 @@
-from warbler.users.views import users_bp
-from warbler.root.views import root_bp
-from warbler.messages.views import messages_bp
 from flask import Flask
 import os
 from dotenv import load_dotenv
+
+# When we imported blueprints up here, we got a circular error?
 
 from flask import (
     Flask, render_template, request, flash, redirect, session, g, abort,
@@ -11,13 +10,13 @@ from flask import (
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
-from forms import CSRFProtection
+from .forms import CSRFProtection
+# need to include "." before?
+from .users.models import User
 
-from users.models import User
-
-db = SQLAlchemy()
+# db = SQLAlchemy()
 
 # from forms import (
 #     UserAddForm, UserEditForm, LoginForm, MessageForm, CSRFProtection,
@@ -42,17 +41,17 @@ app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 toolbar = DebugToolbarExtension(app)
 
 
-def connect_db(app):
-    """Connect this database to provided Flask app.
+# def connect_db(app):
+#     """Connect this database to provided Flask app.
 
-    You should call this in your Flask app.
-    """
+#     You should call this in your Flask app.
+#     """
 
-    db.app = app
-    db.init_app(app)
+#     db.app = app
+#     db.init_app(app)
 
 
-connect_db(app)
+# connect_db(app)
 
 
 @app.before_request
@@ -72,6 +71,10 @@ def add_csrf_only_form():
 
     g.csrf_form = CSRFProtection()
 
+
+from warbler.users.views import users_bp
+from warbler.root.views import root_bp
+from warbler.messages.views import messages_bp
 
 # Register Blueprints
 app.register_blueprint(users_bp, url_prefix='/users')

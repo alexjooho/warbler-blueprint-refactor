@@ -1,7 +1,7 @@
 """ SQLAlchemy models for Users """
 
-from follows.models import Follows
-from warbler import db
+from warbler.follows.models import Follows
+from warbler.database import db
 from flask_bcrypt import Bcrypt
 # from flask_sqlalchemy import SQLAlchemy
 
