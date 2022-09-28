@@ -1,10 +1,12 @@
 """ SQLAlchemy models for Users """
 
 from flask_bcrypt import Bcrypt
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
 bcrypt = Bcrypt()
-db = SQLAlchemy()
+# db = SQLAlchemy()
+
+from part_3 import db
 
 DEFAULT_IMAGE_URL = "/static/images/default-pic.png"
 DEFAULT_HEADER_IMAGE_URL = "/static/images/warbler-hero.jpg"

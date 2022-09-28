@@ -1,5 +1,4 @@
 from .users.views import users_bp
-from .users.models import connect_db
 from flask import Flask
 import os
 from dotenv import load_dotenv
@@ -10,11 +9,15 @@ from flask import (
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 # from forms import (
 #     UserAddForm, UserEditForm, LoginForm, MessageForm, CSRFProtection,
 # )
-from .users.models import (
-    db, connect_db, User, DEFAULT_IMAGE_URL, DEFAULT_HEADER_IMAGE_URL)
+# from .users.models import (
+#     db, connect_db, User, DEFAULT_IMAGE_URL, DEFAULT_HEADER_IMAGE_URL)
 
 load_dotenv()
 
@@ -32,8 +35,48 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 toolbar = DebugToolbarExtension(app)
 
+def connect_db(app):
+    """Connect this database to provided Flask app.
+
+    You should call this in your Flask app.
+    """
+
+    db.app = app
+    db.init_app(app)
 
 connect_db(app)
 
+@app.before_request
+def add_user_to_g():
+    """If we're logged in, add curr user to Flask global."""
+
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+
+    else:
+        g.user = None
+
+
+@app.before_request
+def add_csrf_only_form():
+    """Add a CSRF-only form so that every route can use it."""
+
+    g.csrf_form = CSRFProtection()
+
 # Register Blueprints
 app.register_blueprint(users_bp, url_prefix='/users')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """404 NOT FOUND page."""
+
+    return render_template('404.html'), 404
+
+
+@app.after_request
+def add_header(response):
+    """Add non-caching headers on every request."""
+
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+    response.cache_control.no_store = True
+    return response
